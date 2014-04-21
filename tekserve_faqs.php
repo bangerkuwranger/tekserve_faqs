@@ -89,3 +89,181 @@ function create_os_taxonomy()  {
 
 // Hook into the 'init' action
 add_action( 'init', 'create_os_taxonomy', 0 );
+
+// Add Shortcode for front page boxes
+function tekserve_faq_boxes( $atts ) {
+
+	// Attributes
+	extract( shortcode_atts(
+		array(
+			'boxonename' => 'Device',
+			'boxtwoname' => 'Operating System',
+			'boxthreename' => 'Topic',
+			'boxonelink' => 'index.php?page_id=51',
+			'boxtwolink' => 'index.php?page_id=61',
+			'boxthreelink' => 'index.php?page_id=56',
+		), $atts )
+	);
+
+	// Code
+$boxes = '
+<script type="text/javascript">
+	jQuery(function() {
+		jQuery("body").addClass("tekserve-faq-boxes");
+	});
+</script>
+<div id="hero-image" class="wpb_row vc_row-fluid">
+<div id="hero">
+  <div class="container">
+    <div class="hero-title">
+      <h1>TekFAQs</h1>
+    </div>
+    <div class="hero-search">
+      <form role="search" method="get" id="searchform" class="form-search" action="http://faq.tekserve.com/">
+  <label class="hide" for="s">Search for:</label>
+  <input type="text" id="autocomplete-ajax" name="s" class="searchajax search-query placeholder" autocomplete="off" placeholder="Find help! Enter search term here.">
+  <input type="submit" id="searchsubmit" value="Search" class="btn-black">
+</form>
+<script> _url = "http://faq.tekserve.com";</script>    </div>
+  </div>
+</div>
+
+<div id="boxes-container class="wpb_row vc_row-fluid"><h1>Browse By:</h1>
+  <div class="container vc_span12 wpb_column column_container">
+  <div class="row boxes wpb_row vc_row-fluid" style="width: 70%; min-width: 960px; margin: 0 auto;">
+    <div class="span4 vc_span4 wpb_column column_container">
+      <div class="box">
+        <div class="box-icon">
+          <a href="' . $boxonelink . '"><i class="icon-desktop"></i></a>
+        </div>
+        <div class="box-title">
+          <h2><a href="' . $boxonelink . '">' . $boxonename . '</a></h2>
+        </div>
+        <div class="box-text">
+          <br>
+          <a class="btn-black" href="' . $boxonelink . '">Continue</a>
+        </div>
+      </div>
+    </div>
+    <div class="span4 vc_span4 wpb_column column_container">
+      <div class="box">
+        <div class="box-icon">
+          <a href="' . $boxtwolink . '"><i class="icon-file-alt"></i></a>
+        </div>
+        <div class="box-title">
+          <h2><a href="' . $boxtwolink . '">' . $boxtwoname . '</a></h2>
+        </div>
+        <div class="box-text">
+          <br>
+          <a class="btn-black" href="' . $boxtwolink . '">Continue</a>
+        </div>
+      </div>
+    </div>
+    <div class="span4 vc_span4 wpb_column column_container">
+      <div class="box">
+        <div class="box-icon">
+          <a href="' . $boxthreelink . '"><i class="icon-question-sign"></i></a>
+        </div>
+        <div class="box-title">
+          <h2><a href="' . $boxthreelink . '">' . $boxthreename . '</a></h2>
+        </div>
+        <div class="box-text">
+          <br>
+          <a class="btn-black" href="' . $boxthreelink . '">Continue</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</div>
+</div>';
+return $boxes;
+}
+add_shortcode( 'tekservefaqboxes', 'tekserve_faq_boxes' );
+
+//Add VC buttons if VC is installed
+if (function_exists('vc_map')) { //check for vc_map function before mapping buttons
+	$args = array (
+		'title_li'	=> '',
+		'echo'		=> 0
+	);
+	$category_list = get_categories($args);
+	$slug_array = array();
+	$i = 0;
+	foreach($category_list as $category) {
+		$slug_array[$i] = $category->slug;
+		$i++;
+	}
+	$cat_array = print_r($slug_array, 'true');
+	
+	vc_map( array(
+	   "name" => __("FAQ Boxes"),
+	   "base" => "tekservefaqboxes",
+	   "class" => "",
+	   "icon" => "icon-wpb-rentalitem",
+	   "category" => __('Content'),
+	   "params" => array(
+		   array(
+				 "type" => "textfield",
+				 "holder" => "div",
+				 "class" => "",
+				 "heading" => __("Box One Title Text"),
+				 "param_name" => "boxonename",
+				 "value" => __("Device"),
+				 "description" => __("Enter the text for the title of box 1. Required."),
+				 "admin_label" => True
+			  ),
+			array(
+				 "type" => "textfield",
+				 "holder" => "div",
+				 "class" => "",
+				 "heading" => __("Box One URL"),
+				 "param_name" => "boxonelink",
+				 "value" => __(""),
+				 "description" => __("Enter the url for box 1. Required."),
+				 "admin_label" => True
+			  ),
+			  array(
+				 "type" => "textfield",
+				 "holder" => "div",
+				 "class" => "",
+				 "heading" => __("Box Two Title Text"),
+				 "param_name" => "boxtwoname",
+				 "value" => __("Operating System"),
+				 "description" => __("Enter the text for the title of box 2. Required."),
+				 "admin_label" => True
+			  ),
+			array(
+				 "type" => "textfield",
+				 "holder" => "div",
+				 "class" => "",
+				 "heading" => __("Box Two URL"),
+				 "param_name" => "boxtwolink",
+				 "value" => __(""),
+				 "description" => __("Enter the url for box 3. Required."),
+				 "admin_label" => True
+			  ),
+			  array(
+				 "type" => "textfield",
+				 "holder" => "div",
+				 "class" => "",
+				 "heading" => __("Box Three Title Text"),
+				 "param_name" => "boxthreename",
+				 "value" => __("Topic"),
+				 "description" => __("Enter the text for the title of box 3. Required."),
+				 "admin_label" => True
+			  ),
+			array(
+				 "type" => "textfield",
+				 "holder" => "div",
+				 "class" => "",
+				 "heading" => __("Box Three URL"),
+				 "param_name" => "boxthreelink",
+				 "value" => __(""),
+				 "description" => __("Enter the url for box 3. Required."),
+				 "admin_label" => True
+			  ),
+		)
+	)	);
+	
+}

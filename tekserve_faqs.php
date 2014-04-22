@@ -121,14 +121,14 @@ $boxes = '
     <div class="hero-search">
       <form role="search" method="get" id="searchform" class="form-search" action="http://faq.tekserve.com/">
   <label class="hide" for="s">Search for:</label>
-  <input type="text" id="autocomplete-ajax" name="s" class="searchajax search-query placeholder" autocomplete="off" placeholder="Find help! Enter search term here.">
+  <input type="text" id="autocomplete-ajax" name="s" class="searchajax search-query placeholder search-input" autocomplete="on" placeholder="Find help! Enter search term here.">
   <input type="submit" id="searchsubmit" value="Search" class="btn-black">
 </form>
 <script> _url = "http://faq.tekserve.com";</script>    </div>
   </div>
 </div>
 
-<div id="boxes-container class="wpb_row vc_row-fluid"><h1>Browse By:</h1>
+<div id="boxes-container" class="wpb_row vc_row-fluid"><h1>Browse By:</h1>
   <div class="container vc_span12 wpb_column column_container">
   <div class="row boxes wpb_row vc_row-fluid" style="width: 70%; min-width: 960px; margin: 0 auto;">
     <div class="span4 vc_span4 wpb_column column_container">

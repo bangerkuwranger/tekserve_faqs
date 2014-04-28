@@ -267,3 +267,161 @@ if (function_exists('vc_map')) { //check for vc_map function before mapping butt
 	)	);
 	
 }
+
+if ( ! function_exists( 'tekserve_faq_issue' ) ) {
+
+// Register Custom Taxonomy - Issue
+function tekserve_faq_issue() {
+
+	$labels = array(
+		'name'                       => _x( 'Issues', 'Taxonomy General Name', 'tekserve_faq_issue' ),
+		'singular_name'              => _x( 'Issue', 'Taxonomy Singular Name', 'tekserve_faq_issue' ),
+		'menu_name'                  => __( 'Issue', 'tekserve_faq_issue' ),
+		'all_items'                  => __( 'All Issues', 'tekserve_faq_issue' ),
+		'parent_item'                => __( 'Parent Issue', 'tekserve_faq_issue' ),
+		'parent_item_colon'          => __( 'Parent Issue:', 'tekserve_faq_issue' ),
+		'new_item_name'              => __( 'New Issue Name', 'tekserve_faq_issue' ),
+		'add_new_item'               => __( 'Add New Issue', 'tekserve_faq_issue' ),
+		'edit_item'                  => __( 'Edit Issue', 'tekserve_faq_issue' ),
+		'update_item'                => __( 'Update Issue', 'tekserve_faq_issue' ),
+		'separate_items_with_commas' => __( 'Separate issues with commas', 'tekserve_faq_issue' ),
+		'search_items'               => __( 'Search Issues', 'tekserve_faq_issue' ),
+		'add_or_remove_items'        => __( 'Add or remove Issues', 'tekserve_faq_issue' ),
+		'choose_from_most_used'      => __( 'Choose from the most used Issues', 'tekserve_faq_issue' ),
+		'not_found'                  => __( 'Not Found', 'tekserve_faq_issue' ),
+	);
+	$rewrite = array(
+		'slug'                       => 'issue',
+		'with_front'                 => true,
+		'hierarchical'               => false,
+	);
+	$args = array(
+		'labels'                     => $labels,
+		'hierarchical'               => false,
+		'public'                     => true,
+		'show_ui'                    => true,
+		'show_admin_column'          => true,
+		'show_in_nav_menus'          => false,
+		'show_tagcloud'              => false,
+		'rewrite'                    => $rewrite,
+	);
+	register_taxonomy( 'tekserve_faq_issue', array( 'post', 'tekserve_faq_operating_system', 'tekserve_faq_device' ), $args );
+
+}
+
+// Hook into the 'init' action
+add_action( 'init', 'tekserve_faq_issue', 0 );
+
+}
+
+if ( ! function_exists('tekserve_faq_device') ) {
+
+// Register Custom Post Type for Devices
+function tekserve_faq_device() {
+
+	$labels = array(
+		'name'                => _x( 'Devices', 'Post Type General Name', 'tekserve_faq_device' ),
+		'singular_name'       => _x( 'Device', 'Post Type Singular Name', 'tekserve_faq_device' ),
+		'menu_name'           => __( 'Devices', 'tekserve_faq_device' ),
+		'parent_item_colon'   => __( 'Parent Device:', 'tekserve_faq_device' ),
+		'all_items'           => __( 'All Devices', 'tekserve_faq_device' ),
+		'view_item'           => __( 'View Device', 'tekserve_faq_device' ),
+		'add_new_item'        => __( 'Add New Device', 'tekserve_faq_device' ),
+		'add_new'             => __( 'Add New', 'tekserve_faq_device' ),
+		'edit_item'           => __( 'Edit Device', 'tekserve_faq_device' ),
+		'update_item'         => __( 'Update Device', 'tekserve_faq_device' ),
+		'search_items'        => __( 'Search Devices', 'tekserve_faq_device' ),
+		'not_found'           => __( 'Not found', 'tekserve_faq_device' ),
+		'not_found_in_trash'  => __( 'Not found in Trash', 'tekserve_faq_device' ),
+	);
+	$rewrite = array(
+		'slug'                => 'device',
+		'with_front'          => true,
+		'pages'               => true,
+		'feeds'               => true,
+	);
+	$args = array(
+		'label'               => __( 'tekserve_faq_device', 'tekserve_faq_device' ),
+		'description'         => __( 'Device Post Type for Tekserve FAQs', 'tekserve_faq_device' ),
+		'labels'              => $labels,
+		'supports'            => array( 'title', 'editor', 'thumbnail', ),
+		'taxonomies'          => array( 'category', 'post_tag', 'tekserve_faq_issue' ),
+		'hierarchical'        => false,
+		'public'              => true,
+		'show_ui'             => true,
+		'show_in_menu'        => true,
+		'show_in_nav_menus'   => true,
+		'show_in_admin_bar'   => true,
+		'menu_position'       => 5,
+		'menu_icon'           => '',
+		'can_export'          => true,
+		'has_archive'         => true,
+		'exclude_from_search' => false,
+		'publicly_queryable'  => true,
+		'rewrite'             => $rewrite,
+		'capability_type'     => 'page',
+	);
+	register_post_type( 'tekserve_faq_device', $args );
+
+}
+
+// Hook into the 'init' action
+add_action( 'init', 'tekserve_faq_device', 0 );
+
+}
+
+if ( ! function_exists('tekserve_faq_operating_system') ) {
+
+// Register Custom Post Type for Operating Systems
+function tekserve_faq_operating_system() {
+
+	$labels = array(
+		'name'                => _x( 'Operating Systems', 'Post Type General Name', 'tekserve_faq_operating_system' ),
+		'singular_name'       => _x( 'Operating System', 'Post Type Singular Name', 'tekserve_faq_operating_system' ),
+		'menu_name'           => __( 'Operating Systems', 'tekserve_faq_operating_system' ),
+		'parent_item_colon'   => __( 'Parent Operating System:', 'tekserve_faq_operating_system' ),
+		'all_items'           => __( 'All Operating Systems', 'tekserve_faq_operating_system' ),
+		'view_item'           => __( 'View Operating System', 'tekserve_faq_operating_system' ),
+		'add_new_item'        => __( 'Add New Operating System', 'tekserve_faq_operating_system' ),
+		'add_new'             => __( 'Add New', 'tekserve_faq_operating_system' ),
+		'edit_item'           => __( 'Edit Operating System', 'tekserve_faq_operating_system' ),
+		'update_item'         => __( 'Update Operating System', 'tekserve_faq_operating_system' ),
+		'search_items'        => __( 'Search Operating Systems', 'tekserve_faq_operating_system' ),
+		'not_found'           => __( 'Not found', 'tekserve_faq_operating_system' ),
+		'not_found_in_trash'  => __( 'Not found in Trash', 'tekserve_faq_operating_system' ),
+	);
+	$rewrite = array(
+		'slug'                => 'os',
+		'with_front'          => true,
+		'pages'               => true,
+		'feeds'               => true,
+	);
+	$args = array(
+		'label'               => __( 'tekserve_faq_operating_system', 'tekserve_faq_operating_system' ),
+		'description'         => __( 'Operating System Post Type for Tekserve FAQs', 'tekserve_faq_operating_system' ),
+		'labels'              => $labels,
+		'supports'            => array( 'title', 'editor', 'thumbnail', ),
+		'taxonomies'          => array( 'category', 'post_tag', 'tekserve_faq_issue' ),
+		'hierarchical'        => false,
+		'public'              => true,
+		'show_ui'             => true,
+		'show_in_menu'        => true,
+		'show_in_nav_menus'   => true,
+		'show_in_admin_bar'   => true,
+		'menu_position'       => 5,
+		'menu_icon'           => '',
+		'can_export'          => true,
+		'has_archive'         => true,
+		'exclude_from_search' => false,
+		'publicly_queryable'  => true,
+		'rewrite'             => $rewrite,
+		'capability_type'     => 'page',
+	);
+	register_post_type( 'tekserve_faq_operating_system', $args );
+
+}
+
+// Hook into the 'init' action
+add_action( 'init', 'tekserve_faq_operating_system', 0.18 );
+
+}

@@ -353,7 +353,7 @@ function tekserve_faq_device() {
 		'show_in_nav_menus'   => true,
 		'show_in_admin_bar'   => true,
 		'menu_position'       => 5,
-		'menu_icon'           => '',
+		'menu_icon'           => 'dashicons-desktop',
 		'can_export'          => true,
 		'has_archive'         => true,
 		'exclude_from_search' => false,
@@ -391,7 +391,7 @@ function tekserve_faq_operating_system() {
 		'not_found_in_trash'  => __( 'Not found in Trash', 'tekserve_faq_operating_system' ),
 	);
 	$rewrite = array(
-		'slug'                => 'os',
+		'slug'                => 'operating-system',
 		'with_front'          => true,
 		'pages'               => true,
 		'feeds'               => true,
@@ -408,8 +408,8 @@ function tekserve_faq_operating_system() {
 		'show_in_menu'        => true,
 		'show_in_nav_menus'   => true,
 		'show_in_admin_bar'   => true,
-		'menu_position'       => 5,
-		'menu_icon'           => '',
+		'menu_position'       => 6,
+		'menu_icon'           => 'dashicons-welcome-widgets-menus',
 		'can_export'          => true,
 		'has_archive'         => true,
 		'exclude_from_search' => false,
@@ -422,6 +422,6 @@ function tekserve_faq_operating_system() {
 }
 
 // Hook into the 'init' action
-add_action( 'init', 'tekserve_faq_operating_system', 0.18 );
+add_action( 'init', 'tekserve_faq_operating_system', 1 );
 
 }

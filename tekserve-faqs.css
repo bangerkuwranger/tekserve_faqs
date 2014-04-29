@@ -1,0 +1,126 @@
+.post-type-archive-tekserve_faq_device .tekserve_faq_device {
+	max-width: 33%;
+	display: inline-block;
+	margin: 2em;
+	text-align: center;
+	padding: 0;
+}
+
+.post-type-archive-tekserve_faq_os .tekserve_faq_os h2,
+.post-type-archive-tekserve_faq_device .tekserve_faq_device h2 {
+	max-width: 200px;
+	text-align: center;
+	margin-bottom: 1em;
+}
+
+.post-type-archive-tekserve_faq_device .even h2 a,
+.post-type-archive-tekserve_faq_device .even h2 a:visited,
+.post-type-archive-tekserve_faq_device .odd h2 a,
+.post-type-archive-tekserve_faq_device .odd h2 a:visited,
+.post-type-archive-tekserve_faq_os .even h2 a,
+.post-type-archive-tekserve_faq_os .even h2 a:visited,
+.post-type-archive-tekserve_faq_os .odd h2 a,
+.post-type-archive-tekserve_faq_os .odd h2 a:visited {
+	color: #004d72;
+	text-align: center;
+	max-width: 100%;
+}
+
+.post-type-archive-tekserve_faq_device .even h2 a:hover,
+.post-type-archive-tekserve_faq_device .odd h2 a:hover,
+.post-type-archive-tekserve_faq_os .even h2 a:hover,
+.post-type-archive-tekserve_faq_os .odd h2 a:hover {
+	color: #f36f37;
+}
+
+.post-type-archive-tekserve_faq_device .tekserve_faq_device .post-meta,
+.post-type-archive-tekserve_faq_device .tekserve_faq_device .entry-content,
+.post-type-archive-tekserve_faq_os .tekserve_faq_os .post-meta,
+.post-type-archive-tekserve_faq_os .tekserve_faq_os .entry-content {
+	display: none;
+}
+
+.post-type-archive-tekserve_faq_device .tekserve_faq_device img,
+.post-type-archive-tekserve_faq_os .tekserve_faq_os img {
+	outline: none;
+	float: none;
+	margin: 0 !important;
+}
+
+.post-type-archive-tekserve_faq_device #sidebar,
+.post-type-archive-tekserve_faq_os #sidebar {
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	float: left;
+	width: 25%;
+}
+
+.post-type-archive-tekserve_faq_device #content,
+.post-type-archive-tekserve_faq_os #content {
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	float: left;
+	width: 75%;
+	padding-right: 5%;
+}
+
+#sidebar .widget.emma-widget {
+	min-height: 225px;
+	margin-bottom: 20px;
+	margin-left: 10px;
+}
+
+#sidebar .widget.emma-widget div h4 { 
+	color: #40a8c9;
+	font-weight: 900;
+	text-transform: uppercase;
+	line-height: 1;
+}
+
+#sidebar .widget li a {
+	text-decoration: none;
+	font-weight: 800;
+	font-family: Tekvetica;
+	font-size: 20px;
+}
+
+#sidebar .widget-inner ul li {
+	background-color: #fff;
+	margin-bottom: 5px;
+	padding-left: 10px;
+	-moz-border-radius: 4px; 
+	-webkit-border-radius: 4px;
+	border-radius: 4px; 
+}
+
+#sidebar ul, #sidebar ul li {
+	list-style: none !important;
+}
+
+#sidebar  ul > li > ul {
+	background-color: #fff;
+}
+
+#sidebar  ul > li > ul:hover {
+	background-color: #fff;
+}
+
+#sidebar .widget li a {
+	text-decoration: none;
+}
+
+#sidebar .widget li:hover a {
+	color: #40A8C9;
+}
+
+#sidebar .widget li:hover i {
+	color:#40A8C9;
+}
+
+#sidebar .widget {
+	padding-bottom: 2em;
+}
+
+#sidebar h4.widget-title {
+	font-size: 1.75em;
+}

@@ -181,6 +181,7 @@ return $boxes;
 }
 add_shortcode( 'tekservefaqboxes', 'tekserve_faq_boxes' );
 
+
 //Add VC buttons if VC is installed
 if (function_exists('vc_map')) { //check for vc_map function before mapping buttons
 	$args = array (
@@ -266,6 +267,7 @@ if (function_exists('vc_map')) { //check for vc_map function before mapping butt
 		)
 	)	);
 	
+
 }
 
 if ( ! function_exists( 'tekserve_faq_issue' ) ) {
@@ -335,7 +337,7 @@ function tekserve_faq_device() {
 		'not_found_in_trash'  => __( 'Not found in Trash', 'tekserve_faq_device' ),
 	);
 	$rewrite = array(
-		'slug'                => 'device',
+		'slug'                => 'devices',
 		'with_front'          => true,
 		'pages'               => true,
 		'feeds'               => true,
@@ -344,7 +346,7 @@ function tekserve_faq_device() {
 		'label'               => __( 'tekserve_faq_device', 'tekserve_faq_device' ),
 		'description'         => __( 'Device Post Type for Tekserve FAQs', 'tekserve_faq_device' ),
 		'labels'              => $labels,
-		'supports'            => array( 'title', 'editor', 'thumbnail', ),
+		'supports'            => array( 'title', 'editor', 'thumbnail', 'genesis-cpt-archives-settings', ),
 		'taxonomies'          => array( 'tekserve_faq_issue' ),
 		'hierarchical'        => false,
 		'public'              => true,
@@ -402,7 +404,7 @@ function tekserve_faq_os() {
 		'label'               => __( 'tekserve_faq_os', 'tekserve_faq_os' ),
 		'description'         => __( 'Operating System', 'tekserve_faq_os' ),
 		'labels'              => $labels,
-		'supports'            => array( 'title', 'editor', 'thumbnail', ),
+		'supports'            => array( 'title', 'editor', 'thumbnail', 'genesis-cpt-archives-settings', ),
 		'taxonomies'          => array( 'tekserve_faq_issue' ),
 		'hierarchical'        => false,
 		'public'              => true,
@@ -450,3 +452,10 @@ function tekserve_faq_connection_types() {
 }
 
 add_action( 'p2p_init', 'tekserve_faq_connection_types' );
+
+//enqueue resources
+function include_tekserve_faq_scripts() {
+// 	wp_enqueue_script ( 'ui-elements', get_stylesheet_directory_uri() . '/js/ui-elements.js', array( 'jquery' ), '', true );
+ 	wp_enqueue_style ( 'tekserve_faq_styles', plugins_url( '/tekserve-faqs.css' , __FILE__ ) );
+}
+add_action( 'wp_enqueue_scripts', 'include_tekserve_faq_scripts' );

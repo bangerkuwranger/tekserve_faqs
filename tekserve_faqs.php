@@ -58,10 +58,10 @@ add_action( 'init', 'create_device_taxonomy', 0 );
 // Register Custom Taxonomy
 function create_os_taxonomy()  {
 	$labels = array(
-		'name'                       => _x( 'Operating Systems', 'Taxonomy General Name', 'text_domain' ),
-		'singular_name'              => _x( 'Operating System', 'Taxonomy Singular Name', 'text_domain' ),
-		'menu_name'                  => __( 'Operating System', 'text_domain' ),
-		'all_items'                  => __( 'All Operating Systems', 'text_domain' ),
+		'name'                       => _x( 'OSs', 'Taxonomy General Name', 'text_domain' ),
+		'singular_name'              => _x( 'OS', 'Taxonomy Singular Name', 'text_domain' ),
+		'menu_name'                  => __( 'OS', 'text_domain' ),
+		'all_items'                  => __( 'All OSs', 'text_domain' ),
 		'parent_item'                => __( 'Parent OS', 'text_domain' ),
 		'parent_item_colon'          => __( 'Parent OS:', 'text_domain' ),
 		'new_item_name'              => __( 'New OS Name', 'text_domain' ),
@@ -305,7 +305,7 @@ function tekserve_faq_issue() {
 		'show_tagcloud'              => false,
 		'rewrite'                    => $rewrite,
 	);
-	register_taxonomy( 'tekserve_faq_issue', array( 'post', 'tekserve_faq_operating_system', 'tekserve_faq_device' ), $args );
+	register_taxonomy( 'tekserve_faq_issue', array( 'post', 'tekserve_faq_os', 'tekserve_faq_device' ), $args );
 
 }
 
@@ -345,7 +345,7 @@ function tekserve_faq_device() {
 		'description'         => __( 'Device Post Type for Tekserve FAQs', 'tekserve_faq_device' ),
 		'labels'              => $labels,
 		'supports'            => array( 'title', 'editor', 'thumbnail', ),
-		'taxonomies'          => array( 'category', 'post_tag', 'tekserve_faq_issue' ),
+		'taxonomies'          => array( 'tekserve_faq_issue' ),
 		'hierarchical'        => false,
 		'public'              => true,
 		'show_ui'             => true,
@@ -370,25 +370,27 @@ add_action( 'init', 'tekserve_faq_device', 0 );
 
 }
 
-if ( ! function_exists('tekserve_faq_operating_system') ) {
 
 // Register Custom Post Type for Operating Systems
-function tekserve_faq_operating_system() {
+if ( ! function_exists('tekserve_faq_os') ) {
+
+// Register Custom Post Type
+function tekserve_faq_os() {
 
 	$labels = array(
-		'name'                => _x( 'Operating Systems', 'Post Type General Name', 'tekserve_faq_operating_system' ),
-		'singular_name'       => _x( 'Operating System', 'Post Type Singular Name', 'tekserve_faq_operating_system' ),
-		'menu_name'           => __( 'Operating Systems', 'tekserve_faq_operating_system' ),
-		'parent_item_colon'   => __( 'Parent Operating System:', 'tekserve_faq_operating_system' ),
-		'all_items'           => __( 'All Operating Systems', 'tekserve_faq_operating_system' ),
-		'view_item'           => __( 'View Operating System', 'tekserve_faq_operating_system' ),
-		'add_new_item'        => __( 'Add New Operating System', 'tekserve_faq_operating_system' ),
-		'add_new'             => __( 'Add New', 'tekserve_faq_operating_system' ),
-		'edit_item'           => __( 'Edit Operating System', 'tekserve_faq_operating_system' ),
-		'update_item'         => __( 'Update Operating System', 'tekserve_faq_operating_system' ),
-		'search_items'        => __( 'Search Operating Systems', 'tekserve_faq_operating_system' ),
-		'not_found'           => __( 'Not found', 'tekserve_faq_operating_system' ),
-		'not_found_in_trash'  => __( 'Not found in Trash', 'tekserve_faq_operating_system' ),
+		'name'                => _x( 'Operating Systems', 'Post Type General Name', 'tekserve_faq_os' ),
+		'singular_name'       => _x( 'Operating System', 'Post Type Singular Name', 'tekserve_faq_os' ),
+		'menu_name'           => __( 'Operating System', 'tekserve_faq_os' ),
+		'parent_item_colon'   => __( 'Parent Operating System:', 'tekserve_faq_os' ),
+		'all_items'           => __( 'All Operating Systems', 'tekserve_faq_os' ),
+		'view_item'           => __( 'View Operating System', 'tekserve_faq_os' ),
+		'add_new_item'        => __( 'Add New Operating System', 'tekserve_faq_os' ),
+		'add_new'             => __( 'Add New', 'tekserve_faq_os' ),
+		'edit_item'           => __( 'Edit Item', 'tekserve_faq_os' ),
+		'update_item'         => __( 'Update Operating System', 'tekserve_faq_os' ),
+		'search_items'        => __( 'Search Operating Systems', 'tekserve_faq_os' ),
+		'not_found'           => __( 'Not found', 'tekserve_faq_os' ),
+		'not_found_in_trash'  => __( 'Not found in Trash', 'tekserve_faq_os' ),
 	);
 	$rewrite = array(
 		'slug'                => 'operating-system',
@@ -397,18 +399,18 @@ function tekserve_faq_operating_system() {
 		'feeds'               => true,
 	);
 	$args = array(
-		'label'               => __( 'tekserve_faq_operating_system', 'tekserve_faq_operating_system' ),
-		'description'         => __( 'Operating System Post Type for Tekserve FAQs', 'tekserve_faq_operating_system' ),
+		'label'               => __( 'tekserve_faq_os', 'tekserve_faq_os' ),
+		'description'         => __( 'Operating System', 'tekserve_faq_os' ),
 		'labels'              => $labels,
 		'supports'            => array( 'title', 'editor', 'thumbnail', ),
-		'taxonomies'          => array( 'category', 'post_tag', 'tekserve_faq_issue' ),
+		'taxonomies'          => array( 'tekserve_faq_issue' ),
 		'hierarchical'        => false,
 		'public'              => true,
 		'show_ui'             => true,
 		'show_in_menu'        => true,
 		'show_in_nav_menus'   => true,
 		'show_in_admin_bar'   => true,
-		'menu_position'       => 6,
+		'menu_position'       => 5,
 		'menu_icon'           => 'dashicons-welcome-widgets-menus',
 		'can_export'          => true,
 		'has_archive'         => true,
@@ -417,11 +419,34 @@ function tekserve_faq_operating_system() {
 		'rewrite'             => $rewrite,
 		'capability_type'     => 'page',
 	);
-	register_post_type( 'tekserve_faq_operating_system', $args );
+	register_post_type( 'tekserve_faq_os', $args );
 
 }
 
 // Hook into the 'init' action
-add_action( 'init', 'tekserve_faq_operating_system', 1 );
+add_action( 'init', 'tekserve_faq_os' );
 
 }
+
+//connect custom types to posts
+function tekserve_faq_connection_types() {
+	
+	if ( function_exists( 'p2p_register_connection_type' ) ) {
+		
+		p2p_register_connection_type( array(
+			'name' => 'devices_to_posts',
+			'from' => 'tekserve_faq_device',
+			'to' => 'post'
+		) );
+		
+		p2p_register_connection_type( array(
+			'name' => 'oses_to_posts',
+			'from' => 'tekserve_faq_os',
+			'to' => 'post'
+		) );
+	
+	}
+	
+}
+
+add_action( 'p2p_init', 'tekserve_faq_connection_types' );

@@ -1,14 +1,16 @@
-.post-type-archive-tekserve_faq_device .tekserve_faq_device {
+.post-type-archive-tekserve_faq_device .tekserve_faq_device,
+.post-type-archive-tekserve_faq_os .tekserve_faq_os {
 	max-width: 33%;
 	display: inline-block;
 	margin: 2em;
 	text-align: center;
-	padding: 0;
+	padding: 0 !important;
+	min-height: 390px;
 }
 
 .post-type-archive-tekserve_faq_os .tekserve_faq_os h2,
 .post-type-archive-tekserve_faq_device .tekserve_faq_device h2 {
-	max-width: 200px;
+	max-width: 215px;
 	text-align: center;
 	margin-bottom: 1em;
 }

@@ -28,10 +28,10 @@
 	max-width: 100%;
 }
 
-.post-type-archive-tekserve_faq_device .even h2 a:hover,
-.post-type-archive-tekserve_faq_device .odd h2 a:hover,
-.post-type-archive-tekserve_faq_os .even h2 a:hover,
-.post-type-archive-tekserve_faq_os .odd h2 a:hover {
+.post-type-archive-tekserve_faq_device .tekserve_faq_device.even:hover h2 a,
+.post-type-archive-tekserve_faq_device .tekserve_faq_device.odd:hover h2 a,
+.post-type-archive-tekserve_faq_os .tekserve_faq_os.even:hover h2 a,
+.post-type-archive-tekserve_faq_os .tekserve_faq_os.odd:hover h2 a {
 	color: #f36f37;
 }
 

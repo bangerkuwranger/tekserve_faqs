@@ -126,3 +126,53 @@
 #sidebar h4.widget-title {
 	font-size: 1.75em;
 }
+
+.single-tekserve_faq_edition .nr_related_placeholder {
+	display: none;
+}
+
+.single-tekserve_faq_edition .tekserve-faq-edition-pdf-link-container,
+.single-tekserve_faq_edition .tekserve-faq-edition-epub-link-container ,
+.single-tekserve_faq_edition .tekserve-faq-edition-mobi-link-container {
+	margin-left: 3em;
+}
+
+.single-tekserve_faq_edition .tekserve-faq-edition-pdf-link {
+	background-image: url(images/pdf_logo.jpg);
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: 0;
+	margin-left: -2em;
+	text-indent: 2em;
+	height: 2em;
+	vertical-align: middle;
+}
+
+.single-tekserve_faq_edition .tekserve-faq-edition-epub-link {
+	background-image: url(images/epub_logo.jpg);
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: 0;
+	margin-left: -2em;
+	text-indent: 2em;
+	height: 2em;
+	vertical-align: middle;
+}
+
+.single-tekserve_faq_edition .tekserve-faq-edition-mobi-link {
+	background-image: url(images/mobi_logo.jpg);
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: 0;
+	margin-left: -2em;
+	text-indent: 2em;
+	height: 2em;
+	vertical-align: middle;
+}
+
+.single-tekserve_faq_edition .tekserve_faq_edition img {
+	height: auto;
+	width: 300px;
+	margin-left: -50px;
+	margin-bottom: 50px;
+}

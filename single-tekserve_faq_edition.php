@@ -43,12 +43,9 @@ function tekserve_faq_edition_content() {
 		$besideform .= '"><h3 class="tekserve-faq-edition-mobi-link">MOBI</h3></a></div>';
 	}
 // 	else { $besideform .= 'NO MOBI<br/>'; }
- 	$formhtml = "<div class='bgwrapper'><div class='beside-form leftside'>".$besideform."</div><div class='gravity-form-wrapper rightside'><h1 class='vendor-contact-title'>Contact Us</h1>";
-	$footerfolk = "</div></div><div class='tekserve-faq-edition-folk'>".footer_folk( array( 'rotate' => 'yes' ) )."</div>";
+
 	
-	echo $formhtml;
-	gravity_form(1, false, false, false, '', true);
-	echo $footerfolk;
+
 }
 
 //display featured image before title
@@ -56,6 +53,18 @@ add_action('genesis_before_post_title', 'tekserve_faq_edition_cover');
 function tekserve_faq_edition_cover() {
 	$tekserve_faq_edition_cover = get_the_post_thumbnail($post_id, '800x800');
 	echo $tekserve_faq_edition_cover;
+}
+
+//Footer
+add_action( 'genesis_before_footer', 'add_footer_folk' );
+
+function add_footer_folk() {
+
+ 	$formhtml = "<div class='bgwrapper'><div class='beside-form leftside'>".$besideform."</div><div class='gravity-form-wrapper rightside'><h1 class='vendor-contact-title'>Contact Us</h1>";
+	$footerfolk = "</div></div><div class='tekserve-faq-edition-folk'>".footer_folk( array( 'rotate' => 'yes' ) )."</div>";
+		echo $formhtml;
+	gravity_form(1, false, false, false, '', true);
+	echo $footerfolk;
 }
 
 /** Remove Post Info */

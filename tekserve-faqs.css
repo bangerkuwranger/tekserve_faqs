@@ -50,20 +50,24 @@
 }
 
 .post-type-archive-tekserve_faq_device #sidebar,
-.post-type-archive-tekserve_faq_os #sidebar {
+.post-type-archive-tekserve_faq_os #sidebar,
+.post-type-archive-tekserve_faq_edition #sidebar {
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	float: left;
 	width: 25%;
+	min-width: 230px;
 }
 
 .post-type-archive-tekserve_faq_device #content,
-.post-type-archive-tekserve_faq_os #content {
+.post-type-archive-tekserve_faq_os #content,
+.post-type-archive-tekserve_faq_edition #content {
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	float: left;
 	width: 75%;
 	padding-right: 5%;
+	min-width: 230px;
 }
 
 #sidebar .widget.emma-widget {
@@ -137,7 +141,8 @@
 	margin-left: 3em;
 }
 
-.single-tekserve_faq_edition .tekserve-faq-edition-pdf-link {
+.single-tekserve_faq_edition .tekserve-faq-edition-pdf-link,
+.post-type-archive-tekserve_faq_edition .tekserve-faq-edition-pdf-link {
 	background-image: url(images/pdf_logo.jpg);
 	background-size: contain;
 	background-repeat: no-repeat;
@@ -148,7 +153,8 @@
 	vertical-align: middle;
 }
 
-.single-tekserve_faq_edition .tekserve-faq-edition-epub-link {
+.single-tekserve_faq_edition .tekserve-faq-edition-epub-link,
+.post-type-archive-tekserve_faq_edition .tekserve-faq-edition-epub-link {
 	background-image: url(images/epub_logo.jpg);
 	background-size: contain;
 	background-repeat: no-repeat;
@@ -159,7 +165,8 @@
 	vertical-align: middle;
 }
 
-.single-tekserve_faq_edition .tekserve-faq-edition-mobi-link {
+.single-tekserve_faq_edition .tekserve-faq-edition-mobi-link,
+.post-type-archive-tekserve_faq_edition .tekserve-faq-edition-mobi-link {
 	background-image: url(images/mobi_logo.jpg);
 	background-size: contain;
 	background-repeat: no-repeat;
@@ -170,9 +177,33 @@
 	vertical-align: middle;
 }
 
+.post-type-archive-tekserve_faq_edition .tekserve-faq-edition-mobi-link,
+.post-type-archive-tekserve_faq_edition .tekserve-faq-edition-epub-link,
+.post-type-archive-tekserve_faq_edition .tekserve-faq-edition-pdf-link {
+	margin-left: 0;
+	height: 30px;
+	text-indent: 3em !important;
+	padding-top: 12px;
+	color: #40a8c9;
+}
+
+.post-type-archive-tekserve_faq_edition .tekserve-faq-edition-mobi-link:hover,
+.post-type-archive-tekserve_faq_edition .tekserve-faq-edition-epub-link:hover,
+.post-type-archive-tekserve_faq_edition .tekserve-faq-edition-pdf-link:hover {
+	color: #f36f37;
+}
+
 .single-tekserve_faq_edition .tekserve_faq_edition img {
 	height: auto;
 	width: 300px;
 	margin-left: -50px;
 	margin-bottom: 50px;
+}
+
+.post-type-archive-tekserve_faq_edition li.isotope-item.grid-cat-2040 {
+	text-indent: 0 !important;
+	max-width: 30%;
+	display: inline-block;
+	vertical-align: top;
+	min-width: 230px;
 }

@@ -2,7 +2,7 @@
  
 /**
  * Template Name: Tekserve FAQ Edition - Archives
- * Description: Used as a page template to show page contents, followed by a loop through a CPT archive  
+ * Description: Used as a page template to show archive of editions
  */
  
  //both this and the single template need correct footer placement; otherwise operational
@@ -75,7 +75,7 @@ function custom_do_grid_loop() {
 }
 
 //Footer
-add_action( 'genesis_before_footer', 'add_footer_folk' );
+add_action( 'genesis_after_content_sidebar_wrap', 'add_footer_folk' );
 
 function add_footer_folk() {
 	$footerfolk = "<div class='tekserve-faq-edition-folk'>".footer_folk( array( 'rotate' => 'yes' ) )."</div>";

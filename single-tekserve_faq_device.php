@@ -1,17 +1,17 @@
 <?php
  
 /**
- * Template Name: Tekserve FAQ Edition - Single
- * Description: Used as a page template showing the contents of a single edition of the tekserve FAQ and its related downloads.  Genesis only for now...
+ * Template Name: Tekserve FAQ Device - Single
+ * Description: Used as a page template showing the contents of a single device and its related questions sorted by issue.  Genesis only for now...
  */
  
 //* Customize the post info function to display custom fields
 
 //add text to the title
-add_action('genesis_post_title', 'tekserve_faq_edition_title');
-function tekserve_faq_edition_title() {
-	$faq_edition_custom_title = 'Download ' . get_the_title();
-	echo "<h1 class='entry-title'>".$faq_edition_custom_title."</h1>";
+add_action('genesis_post_title', 'tekserve_faq_device_title');
+function tekserve_faq_device_title() {
+	$faq_device_custom_title = 'Answers for your ' . get_the_title();
+	echo "<h1 class='entry-title'>".$faq_device_custom_title."</h1>";
 }
 
 //enqueue script for form
@@ -20,11 +20,9 @@ function gform_meta() {
 	gravity_form_enqueue_scripts($form_id, $is_ajax);
 }
 
-$besideform = '';
 //add content & DL links
-add_action('genesis_after_post', 'tekserve_faq_edition_content');
-function tekserve_faq_edition_content() {
-	global $besideform;
+add_action('genesis_after_post', 'tekserve_faq_device_content');
+function tekserve_faq_device_content() {
 	$besideform = "";
 	$besideform = '<h2>Choose a Format to Download</h2>';
 	if (genesis_get_custom_field('tekserve_faq_edition_pdf_url')) {
@@ -61,7 +59,7 @@ function tekserve_faq_edition_cover() {
 add_action( 'genesis_after_content_sidebar_wrap', 'add_footer_folk' );
 
 function add_footer_folk() {
-	global $besideform;
+	$besideform = '';
  	$formhtml = "<div class='bgwrapper'><div class='beside-form leftside'>".$besideform."</div><div class='gravity-form-wrapper rightside'><h1 class='vendor-contact-title'>Contact Us</h1>";
 	$footerfolk = "</div></div><div class='tekserve-faq-edition-folk'>".footer_folk( array( 'rotate' => 'yes' ) )."</div>";
 	echo '<div style="clear:both;"></div>';

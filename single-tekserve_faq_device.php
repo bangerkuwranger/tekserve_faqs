@@ -4,6 +4,9 @@
  * Template Name: Tekserve FAQ Device - Single
  * Description: Used as a page template showing the contents of a single device and its related questions sorted by issue.  Genesis only for now...
  */
+ 
+// wp_enqueue_script( 'underscore' );
+
 
 add_action( 'wp_loaded', 'who_am_i' );
 
@@ -39,10 +42,8 @@ add_action( 'genesis_post_content', 'tekserve_faq_device_content' );
 
 function tekserve_faq_device_content() {
 	$these_issues = wp_get_post_terms( who_am_i(), 'tekserve_faq_issue' );
-// 	var_dump($these_issues);
-	$issue_list = '<div class="vc_span4 wpb_column column_container">
+	$issue_list = '<div class="vc_span5 wpb_column column_container tekserve-faq-col-left">
 		<div class="wpb_wrapper">';
-// 	$issue_list .= print_r($these_issues, true);
 	$issue_list .= '<ul class="tekserve-faq-issue-list">';
 	foreach( $these_issues as $issue ) {
 		$issue_list .= '<li>';
@@ -53,8 +54,9 @@ function tekserve_faq_device_content() {
 	</div>';
 	$page_content = '<div id="tekserve_faq_device_content" class="wpb_row section">';
 	$page_content .= $issue_list;
-	$page_content .= '<div class="vc_span9 wpb_column column_container">
+	$page_content .= '<div class="vc_span7 wpb_column column_container tekserve-faq-col-right">
 		<div class="wpb_wrapper">
+			<div class="tekserve-faq-slide-link" style="display: none;"><span class="tekserve-faq-slide-back">Back</span><span class="tekserve-faq-slide-title"></span></div>
 			<div id="tekserve-faq-questions"></div>
 		</div> 
 	</div>';
@@ -71,6 +73,7 @@ function add_footer_folk() {
 		echo '<div style="clear:both;"></div>';
 		echo $footerfolk;
 	}
+	
 }
 
 /** Remove Post Info */

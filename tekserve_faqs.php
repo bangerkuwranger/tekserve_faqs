@@ -29,6 +29,7 @@ function addUploadMimes($mimes) {
 }
 add_filter('upload_mimes', 'addUploadMimes');
 
+
 // Register Custom Taxonomy
 function create_device_taxonomy()  {
 	$labels = array(
@@ -861,15 +862,19 @@ function tekserve_faq_connection_types() {
 	if ( function_exists( 'p2p_register_connection_type' ) ) {
 		
 		p2p_register_connection_type( array(
-			'name' => 'device_to_post',
-			'from' => 'tekserve_faq_device',
-			'to' => 'post'
+			'name'			=> 'device_to_post',
+			'from' 			=> 'tekserve_faq_device',
+			'to' 			=> 'post',
+			'reciprocal'	=> true,
+			'title'			=> 'Connected To'
 		) );
 		
 		p2p_register_connection_type( array(
-			'name' => 'os_to_post',
-			'from' => 'tekserve_faq_os',
-			'to' => 'post'
+			'name'			=> 'os_to_post',
+			'from'			=> 'tekserve_faq_os',
+			'to'			=> 'post',
+			'reciprocal'	=> true,
+			'title'			=> 'Connected To'
 		) );
 	
 	}
@@ -884,8 +889,13 @@ function include_tekserve_faq_frontend_scripts() {
 // 	wp_enqueue_script ( 'ui-elements', get_stylesheet_directory_uri() . '/js/ui-elements.js', array( 'jquery' ), '', true );
  	wp_enqueue_style ( 'tekserve_faq_styles', plugins_url( '/tekserve-faqs.css' , __FILE__ ) );
  	wp_register_script( 'ajaxLoop', plugins_url( '/js/ajaxLoop.js', __FILE__ ), array('jquery') );
- 	//set folder location for js functions
-	wp_localize_script( 'ajaxLoop', 'tekserveFaqData', array( plugins_url( '/', __FILE__ ), get_post_type() ) );
+ 	//set folder location, post type, and post id for js functions
+ 	$thisObj = get_the_id();
+ 	if( function_exists( 'who_am_i' ) ) {
+ 		$thisObj = who_am_i();
+ 	}
+ 	$localData = array( plugins_url( '/', __FILE__ ), get_post_type(), $thisObj );
+	wp_localize_script( 'ajaxLoop', 'tekserveFaqData', $localData );
     wp_enqueue_script('ajaxLoop');
 }
 

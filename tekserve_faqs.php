@@ -883,6 +883,132 @@ function tekserve_faq_connection_types() {
 
 add_action( 'p2p_init', 'tekserve_faq_connection_types' );
 
+//weird craziness here. Adding meta fields to custom taxonomies that assign values from 
+//WP's category taxonomy to allow automated creation of 
+//connections between posts and device/os, as well as to assign issue taxonomy values
+
+//create field to select related category in issue edit
+add_action ( 'tekserve_faq_issue_edit_form', 'tekserve_faq_select_cats_for_issue');
+
+function tekserve_faq_select_cats_for_issue( $tag ) {
+
+	//check for existing featured ID array item in stored option
+	$issue_cats = get_option( 'tekserve_faq_issue_cats' );
+	$cat_ids = array();
+	if ( is_array( $issue_cats ) && array_key_exists( $tag->term_id, $issue_cats ) ) {
+		$cat_ids = $issue_cats[$tag->term_id];
+	}
+	//get list of all categories
+	$issue_cat_menu_args = array (
+		'title_li'	=> '',
+		'hierarchical'=> 0,
+		'echo'		=> 0
+	);
+	$issue_cat_menu_items = get_categories($issue_cat_menu_args);
+	$issue_cat_menu_slug_array = array();
+	//create multiselect with all categories; slug is value, name is item, and selected if in saved option array item
+	$i = 0;
+	foreach($issue_cat_menu_items as $issue_cat_menu_item) {
+		$issue_cat_menu_slug_array[$i] = $issue_cat_menu_item->slug;
+		$i++;
+	}
+	$i = 0;
+	$issue_cat_menu = '<select style="height: 500px;" multiple="multiple" name="tekserve_faq_issue_cats[]" id="tekserve_faq_issue_cats[]">';
+	foreach( $issue_cat_menu_items as $issue_cat_menu_item ) {
+		$issue_cat_menu .= '<option value="';
+		$issue_cat_menu .= $issue_cat_menu_slug_array[$i];
+		$issue_cat_menu .= '" ';
+		if( in_array( $issue_cat_menu_slug_array[$i], $cat_ids ) ) {
+			$issue_cat_menu .= 'selected="selected"';
+		}
+		$issue_cat_menu .= '>';
+		$issue_cat_menu .= $issue_cat_menu_item->name;
+		$issue_cat_menu .= '</option>';
+		$i++;
+	}
+	$issue_cat_menu .= '</select><br/>' . print_r( $cat_ids, true );
+	//then output the form items
+?>
+<h3>Related Categories</h3>
+<table class="form-table">
+		<tbody>
+    <tr class="form-field">
+        <th scope="row" valign="top"><label for="tekserve_faq_issue_cats[]"><?php _e( 'Choose Categories' ) ?></label></th>
+        <td>
+        	<?php echo $issue_cat_menu ?>
+        	<!-- 
+<input type="text" name="tekserve_faq_issue_cats" id="tekserve_faq_issue_cats" size="3" style="width:5%;" value="<?php echo $cat_ids; ?>"><br />
+ -->
+            <span class="description">Categories related to this issue</span>
+        </td>
+    </tr>
+    </tbody>
+</table>
+ 
+<?php
+}
+
+//save related category field data in issue edit save
+add_action ( 'edit_tekserve_faq_issue', 'tekserve_faq_save_issue_cats');
+
+function tekserve_faq_save_issue_cats( $term_id ) {
+	if ( isset( $_POST['tekserve_faq_issue_cats'] ) ) {
+		
+		//load existing category featured option
+		$current_cats = get_option( 'tekserve_faq_issue_cats' );
+
+		//set featured post ID to proper category ID in options array		
+		$current_cats[$term_id] = $_POST['tekserve_faq_issue_cats'];
+		
+		//save the option array
+		update_option( 'tekserve_faq_issue_cats', $current_cats );
+	}
+}
+
+//here's the meat of the madness— on post save, automatically assign issues based on categories
+
+$debugscript = "";
+
+add_action( 'save_post', 'tekserve_faq_auto_issue_from_cat' );
+
+function tekserve_faq_auto_issue_from_cat( $post_id ) {
+	//use parent id if this is a revision
+	if ( $parent_id = wp_is_post_revision( $post_id ) ) {
+		$post_id = $parent_id;
+	}
+	if( get_post_type( $post_id ) == 'post' ) {
+		//gather the issue ids/names
+		$tekserve_faq_issue_list_args = array(
+			'orderby'       => 'slug', 
+			'order'         => 'ASC',
+			'hide_empty'    => false, 
+			'fields'        => 'id=>names'
+		);
+		$tekserve_faq_issues = get_terms( 'tekserve_faq_issue', $tekserve_faq_issue_list_args );
+		$tekserve_faq_issues_to_add = array( 'All Questions' );
+		$i = 1;
+		foreach( $tekserve_faq_issues as $issue_id => $issue_name ) {
+			$issues_to_cats = get_option( 'tekserve_faq_issue_cats' );
+			$issue_cats = $issues_to_cats[$issue_id];
+			if( in_category( $issue_cats, $post_id ) ) {
+					$tekserve_faq_issues_to_add[$i] = $issue_name;
+					$i++;
+			}
+		}
+		wp_set_post_terms( $post_id, $issues_to_cats, 'tekserve_faq_issue' );
+		global $debugscript;
+		$debugscript = $tekserve_faq_issues_to_add;
+		return $tekserve_faq_issues_to_add;
+	}
+}
+
+add_action('admin_notices', 'debug_auto_issue');
+
+function debug_auto_issue() {
+	global $debugscript;
+         echo '<div class="updated"><h1>Issues Added</h1>' . print_r( $debugscript, true ) . 
+         '</div>';
+}
 
 //enqueue resources
 function include_tekserve_faq_frontend_scripts() {

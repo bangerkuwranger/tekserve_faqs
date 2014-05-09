@@ -4,73 +4,86 @@
  * Template Name: Tekserve FAQ Device - Single
  * Description: Used as a page template showing the contents of a single device and its related questions sorted by issue.  Genesis only for now...
  */
+
+add_action( 'wp_loaded', 'who_am_i' );
+
+function who_am_i() {
+	global $wp_query;
+	$thePostID = $wp_query->post->ID;
+	return $thePostID;
+}
+
+$deviceImage = '<span class="tekserve-faq-device-image">'; 
+if( has_post_thumbnail() ) {
+	$deviceImage .= get_the_post_thumbnail();
+	
+}
+else {
+	$deviceImage .= '<img src="' . plugins_url( '/images/defaultdevice.svg', __FILE__ ) . '" />';
+}
+$deviceImage .= '</span>';
  
-//* Customize the post info function to display custom fields
+//* Customize the post info function to display custom fields */
 
 //add text to the title
 add_action('genesis_post_title', 'tekserve_faq_device_title');
 function tekserve_faq_device_title() {
+	global $deviceImage;
 	$faq_device_custom_title = 'Answers for your ' . get_the_title();
-	echo "<h1 class='entry-title'>".$faq_device_custom_title."</h1>";
+	echo '<h1 class="entry-title">'.$faq_device_custom_title.'</h1><div class="tekserve-faq-device-image-container">' . $deviceImage . '</div>';
 }
 
-//enqueue script for form
-add_action('genesis_meta', 'gfom_meta');
-function gform_meta() {
-	gravity_form_enqueue_scripts($form_id, $is_ajax);
-}
 
-//add content & DL links
-add_action('genesis_after_post', 'tekserve_faq_device_content');
+//Content
+add_action( 'genesis_post_content', 'tekserve_faq_device_content' );
+
 function tekserve_faq_device_content() {
-	$besideform = "";
-	$besideform = '<h2>Choose a Format to Download</h2>';
-	if (genesis_get_custom_field('tekserve_faq_edition_pdf_url')) {
-		$besideform .= '<div class="tekserve-faq-edition-pdf-link-container"><a target="_blank" href="';
-		$besideform .= genesis_get_custom_field('tekserve_faq_edition_pdf_url');
-		$besideform .= '"><h3 class="tekserve-faq-edition-pdf-link">PDF</h3></a></div>';
+	$these_issues = wp_get_post_terms( who_am_i(), 'tekserve_faq_issue' );
+// 	var_dump($these_issues);
+	$issue_list = '<div class="vc_span4 wpb_column column_container">
+		<div class="wpb_wrapper">';
+// 	$issue_list .= print_r($these_issues, true);
+	$issue_list .= '<ul class="tekserve-faq-issue-list">';
+	foreach( $these_issues as $issue ) {
+		$issue_list .= '<li>';
+		$issue_list .= '<a class="tekserve-faq-device-issue" id="' . $issue->slug . '" href="javascript:;" title="' . $issue->name . '">' . $issue->name . '</a>';
+		$issue_list .= '</li>';
 	}
-// 	else { $besideform .= 'NO PDF<br/>'; }
-	if (genesis_get_custom_field('tekserve_faq_edition_epub_url')) {
-		$besideform .= '<div class="tekserve-faq-edition-epub-link-container"><a target="_blank" href="';
-		$besideform .= genesis_get_custom_field('tekserve_faq_edition_epub_url');
-		$besideform .= '"><h3 class="tekserve-faq-edition-epub-link">ePub</h3></a></div>';
-	}
-// 	else { $besideform .= 'NO ePub<br/>'; }
-	if (genesis_get_custom_field('tekserve_faq_edition_mobi_url')) {
-		$besideform .= '<div class="tekserve-faq-edition-mobi-link-container"><a target="_blank" href="';
-		$besideform .= genesis_get_custom_field('tekserve_faq_edition_mobi_url');
-		$besideform .= '"><h3 class="tekserve-faq-edition-mobi-link">MOBI</h3></a></div>';
-	}
-// 	else { $besideform .= 'NO MOBI<br/>'; }
-
-	
-
-}
-
-//display featured image before title
-add_action('genesis_before_post_title', 'tekserve_faq_edition_cover');
-function tekserve_faq_edition_cover() {
-	$tekserve_faq_edition_cover = get_the_post_thumbnail($post_id, '800x800');
-	echo $tekserve_faq_edition_cover;
+	$issue_list .= '</ul></div>
+	</div>';
+	$page_content = '<div id="tekserve_faq_device_content" class="wpb_row section">';
+	$page_content .= $issue_list;
+	$page_content .= '<div class="vc_span9 wpb_column column_container">
+		<div class="wpb_wrapper">
+			<div id="tekserve-faq-questions"></div>
+		</div> 
+	</div>';
+	$page_content .= '</div>';
+	echo $page_content;	
 }
 
 //Footer
 add_action( 'genesis_after_content_sidebar_wrap', 'add_footer_folk' );
 
 function add_footer_folk() {
-	$besideform = '';
- 	$formhtml = "<div class='bgwrapper'><div class='beside-form leftside'>".$besideform."</div><div class='gravity-form-wrapper rightside'><h1 class='vendor-contact-title'>Contact Us</h1>";
-	$footerfolk = "</div></div><div class='tekserve-faq-edition-folk'>".footer_folk( array( 'rotate' => 'yes' ) )."</div>";
-	echo '<div style="clear:both;"></div>';
-	echo $formhtml;
-	gravity_form(1, false, false, false, '', true);
-	echo $footerfolk;
+	if( function_exists('footer_folk') ) {
+		$footerfolk = "<div class='tekserve-faq-edition-folk'>".footer_folk( array( 'rotate' => 'yes' ) )."</div>";
+		echo '<div style="clear:both;"></div>';
+		echo $footerfolk;
+	}
 }
 
 /** Remove Post Info */
 remove_action( 'genesis_after_post_title', 'genesis_post_meta' );
 remove_action( 'genesis_post_title', 'genesis_do_post_title' );
 add_filter( 'genesis_pre_get_option_site_layout', '__genesis_return_full_width_content' );
- 
+remove_action( 'genesis_post_content', 'genesis_do_post_content' );
+
+//Add class
+add_filter( 'body_class', 'tekserve_faq_device_body_class' );
+function tekserve_faq_device_body_class( $classes ) {
+     $classes[] = 'page-template-static_content-php';
+     return $classes;
+}
+
 genesis();

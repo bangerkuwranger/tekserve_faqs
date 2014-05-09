@@ -812,11 +812,11 @@ function tekserve_faq_update_edit_form() {
 add_action('post_edit_form_tag', 'tekserve_faq_update_edit_form'); 
 
 
-//use custom template when displaying single download
+//use custom templatea
 
-add_filter( 'template_include', 'tekserve_faq_edition_include_templates_function', 1 );
+add_filter( 'template_include', 'tekserve_faq_include_templates_function', 1 );
 
-function tekserve_faq_edition_include_templates_function( $template_path ) {
+function tekserve_faq_include_templates_function( $template_path ) {
     if ( get_post_type() == 'tekserve_faq_edition' ) {
         if ( is_single() ) {
             // checks if the file exists in the theme first,
@@ -829,16 +829,31 @@ function tekserve_faq_edition_include_templates_function( $template_path ) {
         }
     }
     if ( is_post_type_archive('tekserve_faq_edition') ) {
+		// checks if the file exists in the theme first,
+		// otherwise serve the file from the plugin
+		if ( $theme_file = locate_template( array ( 'archive-tekserve_faq_edition.php' ) ) ) {
+			$template_path = $theme_file;
+		} 
+		else {
+			$template_path = plugin_dir_path( __FILE__ ) . 'archive-tekserve_faq_edition.php';
+		}
+    }
+    if ( get_post_type() == 'tekserve_faq_device' ) {
+        if ( is_single() ) {
             // checks if the file exists in the theme first,
             // otherwise serve the file from the plugin
-            if ( $theme_file = locate_template( array ( 'archive-tekserve_faq_edition.php' ) ) ) {
+            if ( $theme_file = locate_template( array ( 'single-tekserve_faq_device.php' ) ) ) {
                 $template_path = $theme_file;
             } else {
-                $template_path = plugin_dir_path( __FILE__ ) . 'archive-tekserve_faq_edition.php';
+                $template_path = plugin_dir_path( __FILE__ ) . 'single-tekserve_faq_device.php';
             }
         }
+    }
     return $template_path;
 }
+
+
+
 
 //connect custom types to posts
 function tekserve_faq_connection_types() {
@@ -846,13 +861,13 @@ function tekserve_faq_connection_types() {
 	if ( function_exists( 'p2p_register_connection_type' ) ) {
 		
 		p2p_register_connection_type( array(
-			'name' => 'devices_to_posts',
+			'name' => 'device_to_post',
 			'from' => 'tekserve_faq_device',
 			'to' => 'post'
 		) );
 		
 		p2p_register_connection_type( array(
-			'name' => 'oses_to_posts',
+			'name' => 'os_to_post',
 			'from' => 'tekserve_faq_os',
 			'to' => 'post'
 		) );
@@ -863,14 +878,19 @@ function tekserve_faq_connection_types() {
 
 add_action( 'p2p_init', 'tekserve_faq_connection_types' );
 
+
 //enqueue resources
 function include_tekserve_faq_frontend_scripts() {
 // 	wp_enqueue_script ( 'ui-elements', get_stylesheet_directory_uri() . '/js/ui-elements.js', array( 'jquery' ), '', true );
  	wp_enqueue_style ( 'tekserve_faq_styles', plugins_url( '/tekserve-faqs.css' , __FILE__ ) );
+ 	wp_register_script( 'ajaxLoop', plugins_url( '/js/ajaxLoop.js', __FILE__ ), array('jquery') );
+ 	//set folder location for js functions
+	wp_localize_script( 'ajaxLoop', 'tekserveFaqData', array( plugins_url( '/', __FILE__ ), get_post_type() ) );
+    wp_enqueue_script('ajaxLoop');
 }
 
 function include_tekserve_faq_backend_scripts() {
-	wp_register_script('tekserve_faq_js', plugins_url( '/tekserve-faqs.js' , __FILE__ ) ); 
+	wp_register_script('tekserve_faq_js', plugins_url( '/js/tekserve-faqs.js' , __FILE__ ) ); 
 	wp_enqueue_script('tekserve_faq_js'); 
 }
 add_action( 'wp_enqueue_scripts', 'include_tekserve_faq_frontend_scripts' );

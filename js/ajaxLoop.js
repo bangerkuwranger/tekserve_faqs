@@ -56,7 +56,6 @@ jQuery(function($){
 				}
 				else {
 					$('#tekserve_faq_loading').fadeOut(250);
-					console.log(data);
 				}
 			},
 			error     : function(jqXHR, textStatus, errorThrown) {

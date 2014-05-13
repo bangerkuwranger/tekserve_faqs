@@ -51,7 +51,8 @@
 
 .post-type-archive-tekserve_faq_device #sidebar,
 .post-type-archive-tekserve_faq_os #sidebar,
-.post-type-archive-tekserve_faq_edition #sidebar {
+.post-type-archive-tekserve_faq_edition #sidebar,
+.page-template-page-knowledge-base-php #sidebar {
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	float: left;
@@ -61,13 +62,20 @@
 
 .post-type-archive-tekserve_faq_device #content,
 .post-type-archive-tekserve_faq_os #content,
-.post-type-archive-tekserve_faq_edition #content {
+.post-type-archive-tekserve_faq_edition #content,
+.page-template-page-knowledge-base-php #content {
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	float: left;
 	width: 75%;
 	padding-right: 5%;
 	min-width: 230px;
+}
+
+.page-template-page-knowledge-base-php #inner #content .entry-content,
+.page-template-page-knowledge-base-php #inner #content .entry-content .entry-title {
+	margin-top: 0;
+	padding-top: 0;
 }
 
 #sidebar .widget.emma-widget {
@@ -280,8 +288,131 @@
 	left: 50%;
 }
 
+ul.sub-categories,
+ul.sub-categories li,
+ul.category-posts,
+ul.category-posts li {
+	list-style: none;
+}
+
+ul.category-posts li,
+ul.sub-categories {
+	padding-bottom: 1em;
+	margin-left: 1em;
+}
+
+li.sub-category-l1-link,
+ul.sub-categories.level-2 li {
+	padding-left: 1em;
+}
+
+span.root-cat-link a,
+span.root-cat-link a:visited {
+	color: #40a8c9;
+	font-weight: bold;
+}
+
+span.root-cat-link a:hover {
+	color: #004d72;
+}
+
+h2.knowledge-base-root-title {
+	font-size: 1.5em;
+}
+
+.page-template-page-knowledge-base-php .knowledge-base.row:before,
+.page-template-page-knowledge-base-php .knowledge-base.row:after {
+	display: table;
+	height: 0px;
+	content: "";
+}
+
+.page-template-page-knowledge-base-php .knowledge-base.row:after {
+	clear: both;
+}
+
+.page-template-page-knowledge-base-php .knowledge-base.row [class*="vc_span"] {
+	display: block;
+	width: 100%;
+	min-height: 5px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	box-sizing: border-box;
+	float: left;
+	margin-left: 9.5%;
+}
+
+.page-template-page-knowledge-base-php .knowledge-base.row [class*="vc_span"]:first-child {
+	margin-left: 0;
+}
+
+.page-template-page-knowledge-base-php .knowledge-base.row .vc_span12,
+.wpb_teaser_grid.wpb_carousel .vc_span12 {
+	width: 100%;
+}
+
+.page-template-page-knowledge-base-php .knowledge-base.row .vc_span11 {
+	width: 91.4583333333%;
+}
+
+.page-template-page-knowledge-base-php .knowledge-base.row .vc_span10 {
+	width: 82.9166666667%;
+}
+
+.page-template-page-knowledge-base-php .knowledge-base.row .vc_span9 {
+	width: 74.375%;
+}
+
+.page-template-page-knowledge-base-php .knowledge-base.row .vc_span8 {
+	width: 65.8333333333%;
+}
+
+.page-template-page-knowledge-base-php .knowledge-base.row .vc_span7 {
+	width: 57.2916666667%;
+}
+
+.page-template-page-knowledge-base-php .knowledge-base.row .vc_span6,
+.wpb_teaser_grid.wpb_carousel .vc_span6 {
+	width: 48.75%;
+}
+
+.page-template-page-knowledge-base-php .knowledge-base.row .vc_span5 {
+	width: 40.2083333333%;
+}
+
+.page-template-page-knowledge-base-php .knowledge-base.row .vc_span4,
+.wpb_teaser_grid.wpb_carousel .vc_span4 {
+	width: 31.6666666667%;
+}
+
+.page-template-page-knowledge-base-php .knowledge-base.row .vc_span3,
+.wpb_teaser_grid.wpb_carousel .vc_span3 {
+	width: 23.125%;
+}
+
+.page-template-page-knowledge-base-php .knowledge-base.row .vc_span2 {
+	width: 14.5833333333%;
+}
+
+.page-template-page-knowledge-base-php .knowledge-base.row .vc_span1 {
+	width: 6.04166666667%;
+}
+
 @media only screen and (max-width: 1024px) and (min-width: 768px) {
 
+	.section [class*="vc_span"] {
+		display: block;
+		width: 100% !important;
+		min-height: 5px;
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		-ms-box-sizing: border-box;
+		box-sizing: border-box;
+		float: left;
+		margin-left: 2.5%;
+	}
+	
 	.section .vc_span7.wpb_column.column_container.tekserve-faq-col-right {
 		width: 50% !important;
 		float: left !important;

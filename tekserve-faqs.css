@@ -306,6 +306,10 @@ ul.sub-categories.level-2 li {
 	padding-left: 1em;
 }
 
+.page-template-page-knowledge-base-php .knowledge-base.row [class*="vc_span"]:first-child ul.category-posts {
+	margin-left: 1em;
+}
+
 span.root-cat-link a,
 span.root-cat-link a:visited {
 	color: #40a8c9;
@@ -401,7 +405,7 @@ h2.knowledge-base-root-title {
 
 @media only screen and (max-width: 1024px) and (min-width: 768px) {
 
-	.section [class*="vc_span"] {
+	.page-template-page-knowledge-base-php .knowledge-base.row [class*="vc_span"] {
 		display: block;
 		width: 100% !important;
 		min-height: 5px;
@@ -410,7 +414,11 @@ h2.knowledge-base-root-title {
 		-ms-box-sizing: border-box;
 		box-sizing: border-box;
 		float: left;
-		margin-left: 2.5%;
+		margin-left: 1em !important;
+	}
+	
+	h2.knowledge-base-root-title {
+		font-size: 1.5em !important;
 	}
 	
 	.section .vc_span7.wpb_column.column_container.tekserve-faq-col-right {
@@ -428,6 +436,26 @@ h2.knowledge-base-root-title {
 }
 
 @media only screen and (max-width: 768px) {
+
+	.page-template-page-knowledge-base-php .knowledge-base.row [class*="vc_span"] {
+		display: block;
+		width: 100% !important;
+		min-height: 5px;
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		-ms-box-sizing: border-box;
+		box-sizing: border-box;
+		float: left;
+		margin-left: 1em !important;
+	}
+	
+	h2.knowledge-base-root-title {
+		font-size: 1.5em !important;
+	}
+	
+	h2.knowledge-base-root-title a {
+		font-size: 1em !important;
+	}
 
 	.single-tekserve_faq_device .section {
 		position: relative;

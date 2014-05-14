@@ -932,7 +932,7 @@ function tekserve_faq_update_edit_form() {
 add_action('post_edit_form_tag', 'tekserve_faq_update_edit_form'); 
 
 
-//use custom templatea
+//use custom templates
 
 add_filter( 'template_include', 'tekserve_faq_include_templates_function', 1 );
 
@@ -948,7 +948,7 @@ function tekserve_faq_include_templates_function( $template_path ) {
             }
         }
     }
-    if ( is_post_type_archive('tekserve_faq_edition') ) {
+    if ( is_post_type_archive( 'tekserve_faq_edition' ) ) {
 		// checks if the file exists in the theme first,
 		// otherwise serve the file from the plugin
 		if ( $theme_file = locate_template( array ( 'archive-tekserve_faq_edition.php' ) ) ) {
@@ -968,6 +968,15 @@ function tekserve_faq_include_templates_function( $template_path ) {
                 $template_path = plugin_dir_path( __FILE__ ) . 'single-tekserve_faq_device.php';
             }
         }
+    }
+     if ( is_post_type_archive( 'post' ) ||  is_category() ) {
+		// checks if the file exists in the theme first,
+		// otherwise serve the file from the plugin
+		if ( $theme_file = locate_template( array ( 'archive-tekserve_faq_post.php' ) ) ) {
+			$template_path = $theme_file;
+		} else {
+			$template_path = plugin_dir_path( __FILE__ ) . 'archive-tekserve_faq_post.php';
+		}
     }
     return $template_path;
 }
@@ -1055,9 +1064,6 @@ function tekserve_faq_select_cats_for_issue( $tag ) {
         <th scope="row" valign="top"><label for="tekserve_faq_issue_cats[]"><?php _e( 'Choose Categories' ) ?></label></th>
         <td>
         	<?php echo $issue_cat_menu ?>
-        	<!-- 
-<input type="text" name="tekserve_faq_issue_cats" id="tekserve_faq_issue_cats" size="3" style="width:5%;" value="<?php echo $cat_ids; ?>"><br />
- -->
             <span class="description">Categories related to this issue</span>
         </td>
     </tr>
@@ -1091,8 +1097,7 @@ function tekserve_faq_save_issue_cats( $term_id ) {
 // // add_filter( 'wp_insert_post_data', 'tekserve_faq_auto_issue_from_cat',10, 2 );
 
 function tekserve_faq_auto_issue_from_cat( $post_id ) {
-// function tekserve_faq_auto_issue_from_cat( $data, $postarr ) {
-// 	$post_id = $postarr['ID'];
+
 	
 	//use parent id if this is a revision
 	if ( $parent_id = wp_is_post_revision( $post_id ) ) {
@@ -1107,11 +1112,9 @@ function tekserve_faq_auto_issue_from_cat( $post_id ) {
 			'orderby'       => 'slug', 
 			'order'         => 'ASC',
 			'hide_empty'    => 0, 
-// 			'fields'        => 'ids'
 		);
 		$tekserve_faq_issues = get_terms( 'tekserve_faq_issue', $tekserve_faq_issue_list_args );
 		$allqterm = get_term_by( 'name', 'All Questions', 'tekserve_faq_issue' );
-// 		$tekserve_faq_issues_to_add = array( intval( $allqterm->term_id ) );
 		$tekserve_faq_issues_to_add = array( 'All Questions' );
 		$issues_to_cats = get_option( 'tekserve_faq_issue_cats' );
 		$i = 1;
@@ -1119,51 +1122,17 @@ function tekserve_faq_auto_issue_from_cat( $post_id ) {
 			$issue_cat_value = intval( $tekserve_faq_issue->term_id );
 			$issue_cats = $issues_to_cats[$issue_cat_value];
 			if( in_category( $issue_cats, $post_id ) ) {
-// 					$tekserve_faq_issues_to_add[$i] = intval( $tekserve_faq_issue->term_id );
 					$tekserve_faq_issues_to_add[$i] = $tekserve_faq_issue->name;
 					$i++;
 			}
 		}
 		$setdatat = wp_set_post_terms( $post_id, $tekserve_faq_issues_to_add, 'tekserve_faq_issue', true );
 	}
-// 	$data['post_content'] = $data['post_content'] . 'issuesTOADD' . print_r( $tekserve_faq_issues_to_add, true ) . 'issuesADDED' . print_r( $setdatat, true ) . 'TOPOST' . $post_id;
-// 	return $data;
+
 }
-
-//show issues selected for a post
-
-// function tekserve_faq_post_issue_metabox( $post ) {
-// 	add_meta_box( 
-// 		'Issues',
-// 		__( 'Issues' ),
-// 		'tekserve_faq_post_issue_metabox_callback',
-// 		'post',
-// 		'side',
-// 		'core'
-// 	);
-// }
-// add_action( 'add_meta_boxes_post', 'tekserve_faq_post_issue_metabox' );
-// 
-// function tekserve_faq_post_issue_metabox_callback( $post ) {
-// 	if( $post->post_type == 'post' ) {	
-// 		$values = wp_get_post_terms( $post->ID, 'tekserve_faq_issue' );
-// 		echo '<ul>';
-// 		foreach( $values as $value ) {
-// 			echo '<li>';
-// 			echo $value->name;
-// 			echo '</li>';
-// 		}
-// 		echo '</ul>';
-// 	}
-// 	else {
-// 		$box['args'] = array('taxonomy' => 'tekserve_faq_issue');
-// 		post_tags_meta_box( $post, $box );
-	// }
-// }
 
 //enqueue resources
 function include_tekserve_faq_frontend_scripts() {
-// 	wp_enqueue_script ( 'ui-elements', get_stylesheet_directory_uri() . '/js/ui-elements.js', array( 'jquery' ), '', true );
  	wp_enqueue_style ( 'tekserve_faq_styles', plugins_url( '/tekserve-faqs.css' , __FILE__ ) );
  	wp_register_script( 'ajaxLoop', plugins_url( '/js/ajaxLoop.js', __FILE__ ), array('jquery') );
  	//set folder location, post type, and post id for js functions

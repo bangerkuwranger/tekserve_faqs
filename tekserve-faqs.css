@@ -216,6 +216,14 @@
 
 }
 
+@media only screen and (max-width: 640px) {
+
+	#hero .hero-search {
+		display: none;
+	}
+
+}
+
 @media only screen and (max-width: 500px) {
 
 	.page-template-page-knowledge-base-php .knowledge-base.row [class*="vc_span"]:first-child ul.category-posts {

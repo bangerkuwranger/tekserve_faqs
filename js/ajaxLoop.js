@@ -6,8 +6,7 @@ jQuery(function($){
 	var page = 1;
     var loading = true;
     var postType;
-    var viewPort = $( window ).width();
-    var slideWidth = viewPort / 1.5;
+    
     if( tekserveFaqData[1] == "tekserve_faq_device") {
     	postType = "device";
     }
@@ -15,22 +14,31 @@ jQuery(function($){
     	postType = "os";
     }
     var post_obj = tekserveFaqData[2]
+    var viewportSize = $( window ).width();
+    var slideWidth = viewportSize / 1.5;
 	$('.tekserve-faq-'+postType+'-issue').click(function(){
 			clickedIssue = this.id;
-			$('#tekserve_faq_device_content .tekserve-faq-slide-title').text($('#'+clickedIssue).text());
-			viewPort = $( window ).width();
+			$('#tekserve_faq_'+postType+'_content .tekserve-faq-slide-title').text($('#'+clickedIssue).text());
+			viewportSize = $( window ).width();
+			if ( viewportSize < 501 ) {
+				viewportSize = 320;
+			}
 			$('.tekserve-faq-'+postType+'-issue').removeClass('active');
 			$(this).addClass('active');
 			$('body #content #tekserve-faq-questions').empty();
 			load_posts();
-			if(viewPort < 769) {
-				$('#tekserve_faq_device_content').css('left', -(viewPort)+'px' );
-				$('#tekserve_faq_device_content').attr('faqslide', (viewPort));
+			if(viewportSize < 769) {
+				$('#tekserve_faq_'+postType+'_content').css('left', -(viewportSize)+'px' );
+				$('#tekserve_faq_'+postType+'_content').attr('faqslide', (viewportSize));
 			}
 		});
 	$('#tekserve_faq_device_content .tekserve-faq-slide-link').click(function() {
 		slideWidth = $('#tekserve_faq_device_content').attr('faqslide');
 		$('#tekserve_faq_device_content').css('left', 0 );
+	});
+	$('#tekserve_faq_os_content .tekserve-faq-slide-link').click(function() {
+		slideWidth = $('#tekserve_faq_os_content').attr('faqslide');
+		$('#tekserve_faq_os_content').css('left', 0 );
 	});
 
     var $content = $('body #content #tekserve-faq-questions');

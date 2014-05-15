@@ -334,13 +334,6 @@ if ( ! function_exists( 'tekserve_faq_issue' ) ) {
 //will automatically set issues for post based on category
 function tekserve_faq_post_issue( $post_id ) {
 	    /* --- security verification --- */  
-//     if(!wp_verify_nonce($_POST['tekserve_faq_post_issue_nonce'], plugin_basename(__FILE__))) {  
-//       return $post_id;  
-//     } // end if  
-        
-//     if(defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {  
-//       return $post_id;  
-//     } // end if  
         
     if('post' == $_POST['post_type']) {  
       if(!current_user_can('edit_posts', $post_id)) {  
@@ -373,6 +366,7 @@ function tekserve_faq_post_issue( $post_id ) {
 }
 
 add_action( 'save_post', 'tekserve_faq_post_issue' );
+
 
 //create metabox for issues in posts
 function tekserve_faq_post_issue_metabox() {  
@@ -477,7 +471,7 @@ if ( ! function_exists('tekserve_faq_device') ) {
 			'description'         => __( 'Device Post Type for Tekserve FAQs', 'tekserve_faq_device' ),
 			'labels'              => $labels,
 			'supports'            => array( 'title', 'editor', 'thumbnail', 'genesis-cpt-archives-settings', ),
-			'taxonomies'          => array( 'tekserve_faq_issue' ),
+			'taxonomies'          => array( 'tekserve_faq_issue', 'category' ),
 			'hierarchical'        => false,
 			'public'              => true,
 			'show_ui'             => true,
@@ -534,8 +528,8 @@ if ( ! function_exists('tekserve_faq_os') ) {
 			'label'               => __( 'tekserve_faq_os', 'tekserve_faq_os' ),
 			'description'         => __( 'Operating System', 'tekserve_faq_os' ),
 			'labels'              => $labels,
-			'supports'            => array( 'title', 'editor', 'thumbnail', 'genesis-cpt-archives-settings', ),
-			'taxonomies'          => array( 'tekserve_faq_issue' ),
+			'supports'            => array( 'title', 'editor', 'thumbnail', 'genesis-cpt-archives-settings' ),
+			'taxonomies'          => array( 'tekserve_faq_issue', 'category' ),
 			'hierarchical'        => false,
 			'public'              => true,
 			'show_ui'             => true,
@@ -969,6 +963,17 @@ function tekserve_faq_include_templates_function( $template_path ) {
             }
         }
     }
+    if ( get_post_type() == 'tekserve_faq_os' ) {
+        if ( is_single() ) {
+            // checks if the file exists in the theme first,
+            // otherwise serve the file from the plugin
+            if ( $theme_file = locate_template( array ( 'single-tekserve_faq_os.php' ) ) ) {
+                $template_path = $theme_file;
+            } else {
+                $template_path = plugin_dir_path( __FILE__ ) . 'single-tekserve_faq_os.php';
+            }
+        }
+    }
      if ( is_post_type_archive( 'post' ) ||  is_category() ) {
 		// checks if the file exists in the theme first,
 		// otherwise serve the file from the plugin
@@ -994,7 +999,7 @@ function tekserve_faq_connection_types() {
 			'from' 			=> 'tekserve_faq_device',
 			'to' 			=> 'post',
 			'reciprocal'	=> true,
-			'title'			=> 'Connected To'
+			'title'			=> 'Device to Post'
 		) );
 		
 		p2p_register_connection_type( array(
@@ -1002,7 +1007,7 @@ function tekserve_faq_connection_types() {
 			'from'			=> 'tekserve_faq_os',
 			'to'			=> 'post',
 			'reciprocal'	=> true,
-			'title'			=> 'Connected To'
+			'title'			=> 'OS to Post'
 		) );
 	
 	}
@@ -1090,45 +1095,124 @@ function tekserve_faq_save_issue_cats( $term_id ) {
 	}
 }
 
-//here's the meat of the madness— on post save, automatically assign issues based on categories
+// automatically assigning issues based on categories is by issue taxonomy declaration above.
+// these create connections based on categories
 
-
-// add_action( 'save_post', 'tekserve_faq_auto_issue_from_cat' );
-// // add_filter( 'wp_insert_post_data', 'tekserve_faq_auto_issue_from_cat',10, 2 );
-
-function tekserve_faq_auto_issue_from_cat( $post_id ) {
-
-	
-	//use parent id if this is a revision
-	if ( $parent_id = wp_is_post_revision( $post_id ) ) {
-		$post_id = $parent_id;
-	}
-	else {
-		$post_id = $postarr['ID'];
-	}
-	if( get_post_type( $post_id ) == 'post' ) {
-		//gather the issue ids/names
-		$tekserve_faq_issue_list_args = array(
-			'orderby'       => 'slug', 
-			'order'         => 'ASC',
-			'hide_empty'    => 0, 
-		);
-		$tekserve_faq_issues = get_terms( 'tekserve_faq_issue', $tekserve_faq_issue_list_args );
-		$allqterm = get_term_by( 'name', 'All Questions', 'tekserve_faq_issue' );
-		$tekserve_faq_issues_to_add = array( 'All Questions' );
-		$issues_to_cats = get_option( 'tekserve_faq_issue_cats' );
-		$i = 1;
-		foreach( $tekserve_faq_issues as $tekserve_faq_issue ) {
-			$issue_cat_value = intval( $tekserve_faq_issue->term_id );
-			$issue_cats = $issues_to_cats[$issue_cat_value];
-			if( in_category( $issue_cats, $post_id ) ) {
-					$tekserve_faq_issues_to_add[$i] = $tekserve_faq_issue->name;
-					$i++;
-			}
+//will automatically create connections for post to device based on category
+function tekserve_faq_post_device( $post_id ) {
+	    /* --- security verification --- */  
+        
+    if('post' == $_POST['post_type']) {  
+      if(!current_user_can('edit_posts', $post_id)) {  
+        return $post_id;  
+      } // end if  
+    } else {  
+        
+            return $post_id;  
+  
+    } // end if  
+    /* - end security verification - */  
+	$tekserve_faq_device_list_args = array(
+		'orderby'       => 'slug', 
+		'order'         => 'ASC',
+		'post_type'		=> 'tekserve_faq_device',
+		'post_status'	=> 'publish',
+		'numberposts'	=>	-1
+	);
+	$tekserve_faq_devices = get_posts( $tekserve_faq_device_list_args );
+	foreach( $tekserve_faq_devices as $tekserve_faq_device ) {
+		$device_id = intval( $tekserve_faq_device->ID );
+		$device_categories = wp_get_post_categories( $device_id );
+		if( in_category( $device_categories, $post_id ) ) {
+			p2p_create_connection( 'device_to_post', array(
+				'from' => $device_id,
+				'to' => $post_id,
+				'meta' => array(
+					'date' => current_time('mysql')
+				)
+			) );
 		}
-		$setdatat = wp_set_post_terms( $post_id, $tekserve_faq_issues_to_add, 'tekserve_faq_issue', true );
+	}
+	
+}
+
+add_action( 'save_post', 'tekserve_faq_post_device' );
+
+//add update posts bulk edit item buttons
+add_action('admin_footer-edit.php', 'tekserve_faq_update_selected_posts_footer'); 
+ 
+function tekserve_faq_update_selected_posts_footer() {
+ 
+  global $post_type;
+  
+  $target_types = array ( 'post', 'tekserve_faq_device', 'tekserve_faq_os' );
+	switch ( $post_type ) {
+		case 'post' :
+			$post_text = array(
+				'singular'	=>	'Issue',
+				'plural'	=>	'Issues',
+			);
+			break;
+		case 'tekserve_faq_device' :
+			$post_text = array(
+				'singular'	=>	'Device',
+				'plural'	=>	'Devices',
+			);
+			break;
+		case 'tekserve_faq_os' :
+			$post_text = array(
+				'singular'	=>	'Operating System',
+				'plural'	=>	'Operating Systems',
+			);
+			break;
 	}
 
+  if( in_array( $post_type, $target_types ) ) {
+    
+    echo '<script type="text/javascript">
+      jQuery(document).ready(function() {
+        jQuery("a.add-new-h2").after(\'<a id="update-all-tekserve_faq" style="margin-left: 4px; padding: 4px 8px; position: relative; top: -3px; text-decoration: none; border: 0; -webkit-border-radius: 2px; border-radius: 2px; background: #af0000; text-shadow: none; font-weight: 600; font-size: 13px;" href="javascript:;">Update FAQ ' . $post_text['singular'] . ' Data</a>\');
+        var loader = \'<div id="tekserve_faq_loading" style="position: fixed; top: 50%; left: 50%; display:none;"><img src="' . plugins_url( '/images/ajax-loader.gif', __FILE__ ) . '" /></div>\';
+        jQuery("#update-all-tekserve_faq").click(function(){
+			jQuery.ajax({
+				type		: "GET",
+				data		: {updateThis : "' . $post_type . '"},
+				dataType	: "html",
+				timeout		: 120000,
+				url			: "' . plugins_url( '/update_faq_posts.php', __FILE__ ) . '",
+				beforeSend	: function(){
+					jQuery("body").append(loader);
+					jQuery("#tekserve_faq_loading").fadeIn();
+				},
+				success    : function(data){
+					jQuery("#tekserve_faq_loading").hide();
+					alert("Automatically added ' . $post_text['plural'] . ' to these posts. " + data);
+				},
+				error     : function(jqXHR, textStatus, errorThrown) {
+					jQuery("#tekserve_faq_loading").hide();
+					alert(jqXHR + " :: " + textStatus + " :: " + errorThrown);
+				}
+			});
+    	});
+      });
+      
+    </script>';
+  }
+}
+
+
+
+// add_action('admin_notices', 'tekserve_faq_update_selected_posts_notices');
+ 
+function tekserve_faq_update_selected_posts_notices() {
+ 
+  global $post_type, $pagenow;
+ 
+  if($pagenow == 'edit.php' && $post_type == 'post' && isset($_REQUEST['updated']) && (int) $_REQUEST['updated']) {
+    $message = sprintf( _n( 'Post updated.', '%s posts updated.', $_REQUEST['updated'] ), number_format_i18n( $_REQUEST['updated'] ) );
+
+    echo "<div class='updated'><p>{$message}</p></div>";
+  }
 }
 
 //enqueue resources

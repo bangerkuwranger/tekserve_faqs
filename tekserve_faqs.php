@@ -30,6 +30,16 @@ function addUploadMimes($mimes) {
 }
 add_filter('upload_mimes', 'addUploadMimes');
 
+add_filter( 'genesis_post_info', 'tekserve_faq_post_info_filter' );
+function tekserve_faq_post_info_filter($post_info) {
+global $post_type;
+if ( $post_type == 'post' && is_single() ) {
+	$post_info = '';
+	remove_action( 'genesis_after_post_content', 'genesis_post_meta' );
+	return $post_info;
+	
+}}
+
 // Add Shortcode for front page boxes
 function tekserve_faq_boxes( $atts ) {
 

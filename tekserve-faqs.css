@@ -231,3 +231,7 @@
 	}
 	
 }
+
+.single-post .post .post-meta {
+	display: none;
+}

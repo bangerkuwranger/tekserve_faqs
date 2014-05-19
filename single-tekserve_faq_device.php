@@ -57,7 +57,7 @@ function tekserve_faq_device_content() {
 	$page_content .= '<div class="vc_span7 wpb_column column_container tekserve-faq-col-right">
 		<div class="wpb_wrapper">
 			<div class="tekserve-faq-slide-link" style="display: none;"><span class="tekserve-faq-slide-back">Back</span><span class="tekserve-faq-slide-title"></span></div>
-			<div id="tekserve-faq-questions"></div>
+			<div id="tekserve-faq-questions"><img style="min-height: 100px;" src="' . plugins_url( '/images/clickhere.svg', __FILE__ ) . '" /></div>
 		</div> 
 	</div>';
 	$page_content .= '</div>';

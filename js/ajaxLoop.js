@@ -56,6 +56,7 @@ jQuery(function($){
 			success    : function(data){
 				$data = $(data);
 				if($data.length){
+					$('#tekserve-faq-questions img').fadeOut();
 					$data.fadeOut(250);
 					$content.append($data);
 					$("#tekserve_faq_loading").fadeOut(250);

@@ -361,7 +361,7 @@ function tekserve_faq_post_issue( $post_id ) {
 				$tekserve_faq_issues_to_add[$issue_cat_value] = $tekserve_faq_issue->name;
 		}
 	}
-	$setdatat = update_post_meta( $post_id, 'tekserve_faq_post_issue', $tekserve_faq_issues_to_add );
+	$setdatat = update_post_meta( $post_id, 'tekserve_faq_post_issue', serialize( $tekserve_faq_issues_to_add ) );
 	
 }
 
@@ -407,8 +407,10 @@ add_filter('manage_posts_columns', 'tekserve_faq_add_post_issues_column', 5);
 
 // Add the column
 function tekserve_faq_add_post_issues_column($cols){
-$cols['tekserve_faq_post_issue_col'] = __('Issues');
-return $cols;
+	if( !empty( $cols['tekserve_faq_post_issue_col'] ) ) {
+		$cols['tekserve_faq_post_issue_col'] = __('Issues');
+	}
+	return $cols;
 }
 
 
@@ -417,26 +419,29 @@ add_action('manage_posts_custom_column', 'tekserve_faq_display_post_issues_colum
 
 // get issues and display as ul
 function tekserve_faq_display_post_issues_column($col, $id){
-	switch( $col ) {
-		case 'tekserve_faq_post_issue_col':
-			$allqterm = get_term_by( 'name', 'All Questions', 'tekserve_faq_issue' );
-			$post_issues = get_post_meta( $id, 'tekserve_faq_post_issue', false );
-			if( !empty($post_issues) ) {
-				$post_issues = $post_issues[0];
-				$post_issues[intval( $allqterm->term_id )] = $allqterm->name ;
-			}
-			else {
-				$post_issues = array( intval( $allqterm->term_id ) => $allqterm->name );
-			}
-			 $html = '<ul>';
-			foreach( $post_issues as $post_issue ) {
-				$html .= '<li>';
-				$html .= $post_issue;
-				$html .= '</li>';
-			}
-			$html .= '</ul>';
-			echo $html;
-		break;
+	global $post_type, $pagenow;
+	if( $pagenow == 'edit.php' && $post_type == 'post' ) {
+		switch( $col ) {
+			case 'tekserve_faq_post_issue_col':
+				$allqterm = get_term_by( 'name', 'All Questions', 'tekserve_faq_issue' );
+				$post_issues = get_post_meta( $id, 'tekserve_faq_post_issue', false );
+				if( !empty($post_issues) ) {
+					$post_issues = $post_issues[0];
+					$post_issues[intval( $allqterm->term_id )] = $allqterm->name ;
+				}
+				else {
+					$post_issues = array( intval( $allqterm->term_id ) => $allqterm->name );
+				}
+				 $html = '<ul>';
+				foreach( $post_issues as $post_issue ) {
+					$html .= '<li>';
+					$html .= $post_issue;
+					$html .= '</li>';
+				}
+				$html .= '</ul>';
+				echo $html;
+			break;
+		}
 	}
 }
 

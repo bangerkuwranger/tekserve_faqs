@@ -24,40 +24,51 @@ $connected = new WP_Query( array(
 	'connected_type' 		=> $connect_type,
 	'connected_items' 		=> get_post( $connect_items ),
 	'post_type'				=> 'post',
+	'order_by'				=> 'parent',
+	'order'					=> 'ASC',
+	'post_status'			=> 'publish'
 ) );
-$relevant_posts = '';
+$relevant_posts = array();
+$output = '';
 // display posts
 if ($connected->have_posts()) {
-	$i=0;
 	$all_post_issues = array();
 	while ( $connected->have_posts() ) : $connected->the_post();
 		$this_post = get_the_id();
-		$post_issues = get_post_meta( $this_post, 'tekserve_faq_post_issue', false );
-		$all_post_issues[$this_post] = $post_issues[0][$issue_id];
-		$i++;
-		if( $post_issues[0][$issue_id] == $issue_name ) { 
-			$relevant_posts .= '<li class="tekserve-faq-issue-question"><a href="';
-			$relevant_posts .= get_the_permalink();
-			$relevant_posts .= '">';
-			$relevant_posts .= get_the_title();
-			$relevant_posts .= '</a>';
-			$relevant_posts .= '</li>';
+		$post_issues = unserialize( get_post_meta( $this_post, 'tekserve_faq_post_issue', true ) );
+		$all_post_issues[$this_post] = print_r($post_issues,true);
+		if( $post_issues[$issue_id] == $issue_name ) { 
+			$relevant_posts[$this_post] = array( 
+				'title'	=>	get_the_title($this_post),
+				'url'	=>	get_the_permalink($this_post),
+				
+			);
 		}
 	endwhile;
-	if( !empty( $relevant_posts ) ) {
-		$relevant_posts = '<ul class="tekserve-faq-issue-question-list">' . $relevant_posts . '</ul>';
+	foreach( $relevant_posts as $id => $data ) {
+		$output .= '<li class="tekserve-faq-issue-question" id="post-';
+		$output .= $id;
+		$output .= '"><a href="';
+		$output .= $data['url'];
+		$output .= '">';
+		$output .= $data['title'];
+		$output .= '</a>';
+		$output .= '</li>';
+	}
+	if( !empty( $output ) ) {
+		$output = '<ul class="tekserve-faq-issue-question-list">' . $output . '</ul>';
 	}
 	else {
-		$relevant_posts = '<h1>No Questions Available</h1> nr';
+		$output = '<h1>No Questions Available</h1> nr';
 	}
 }
 else {
- 	$relevant_posts = '<h1>No Questions Available</h1>';
+ 	$output = '<h1>No Questions Available</h1>';
 }
-echo $relevant_posts;
+echo $output;
 // print_r($issue_obj);
 // echo '<hr>';
 // print_r($all_post_issues);
 // echo '<hr>';
-// print_r($connected);
+// print_r($relevant_posts);
 wp_reset_postdata();

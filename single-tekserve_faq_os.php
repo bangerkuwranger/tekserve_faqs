@@ -29,12 +29,12 @@ $osImage .= '</span>';
 //* Customize the post info function to display custom fields */
 
 //add text to the title
-add_action('genesis_entry_header', 'tekserve_faq_os_title');
-add_action('genesis_before_post_content', 'tekserve_faq_os_title');
+// add_action('genesis_entry_header', 'tekserve_faq_os_title');
+// add_action('genesis_before_post_content', 'tekserve_faq_os_title');
 function tekserve_faq_os_title() {
 	global $osImage;
 	$faq_os_custom_title = 'Answers to your ' . get_the_title() . ' questions';
-	echo '<h1 class="entry-title">'.$faq_os_custom_title.'</h1><div class="tekserve-faq-os-image-container">' . $osImage . '</div>';
+	echo '<div class="wpb_row section"><div class="tekserve-faq-os-image-container">' . $osImage . '</div><h1 class="entry-title">'.$faq_os_custom_title.'</h1></div>';
 }
 
 
@@ -53,7 +53,7 @@ function tekserve_faq_os_content() {
 	}
 	$issue_list .= '</ul></div>
 	</div>';
-	$page_content = '<div id="tekserve_faq_os_content" class="wpb_row section">';
+	$page_content = '<div id="tekserve_faq_os_content" class="wpb_row section flatTop">';
 	$page_content .= $issue_list;
 	$page_content .= '<div class="vc_span7 wpb_column column_container tekserve-faq-col-right">
 		<div class="wpb_wrapper">
@@ -62,6 +62,7 @@ function tekserve_faq_os_content() {
 		</div> 
 	</div>';
 	$page_content .= '</div>';
+	tekserve_faq_os_title();
 	echo $page_content;	
 }
 

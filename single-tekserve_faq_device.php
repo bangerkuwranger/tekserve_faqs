@@ -29,11 +29,11 @@ $deviceImage .= '</span>';
 //* Customize the post info function to display custom fields */
 
 //add text to the title
-add_action('genesis_post_title', 'tekserve_faq_device_title');
+// add_action('genesis_post_title', 'tekserve_faq_device_title');
 function tekserve_faq_device_title() {
 	global $deviceImage;
 	$faq_device_custom_title = 'Answers for your ' . get_the_title();
-	echo '<h1 class="entry-title">'.$faq_device_custom_title.'</h1><div class="tekserve-faq-device-image-container">' . $deviceImage . '</div>';
+	echo '<div class="wpb_row section"><div class="tekserve-faq-device-image-container">' . $deviceImage . '</div><h1 class="entry-title">'.$faq_device_custom_title.'</h1></div>';
 }
 
 
@@ -52,7 +52,7 @@ function tekserve_faq_device_content() {
 	}
 	$issue_list .= '</ul></div>
 	</div>';
-	$page_content = '<div id="tekserve_faq_device_content" class="wpb_row section">';
+	$page_content = '<div id="tekserve_faq_device_content" class="wpb_row section flatTop">';
 	$page_content .= $issue_list;
 	$page_content .= '<div class="vc_span7 wpb_column column_container tekserve-faq-col-right">
 		<div class="wpb_wrapper">
@@ -61,6 +61,7 @@ function tekserve_faq_device_content() {
 		</div> 
 	</div>';
 	$page_content .= '</div>';
+	tekserve_faq_device_title();
 	echo $page_content;	
 }
 

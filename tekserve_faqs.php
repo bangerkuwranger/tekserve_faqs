@@ -321,6 +321,7 @@ function tekserve_faq_post_issue_metabox_callback( $post ) {
 	 
 	$post_issues = get_post_meta( $post->ID, 'tekserve_faq_post_issue', false );
 	if( !empty($post_issues) ) {
+		$haveissues = $post_issues;
 		$post_issues = $post_issues[0];
 		$post_issues[intval( $allqterm->term_id )] = $allqterm->name ;
 	}
@@ -336,6 +337,7 @@ function tekserve_faq_post_issue_metabox_callback( $post ) {
     }
     $html .= '</ul>';
 //     $html .= print_r($post_issues, true);
+	
     echo $html;
 }
 
